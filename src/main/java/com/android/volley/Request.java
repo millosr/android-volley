@@ -66,6 +66,9 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     /** URL of this request. */
     private final String mUrl;
+    
+    /** The redirect url to use for 3xx http responses */
+    private String mRedirectUrl;
 
     /** The redirect url to use for 3xx http responses */
     private String mRedirectUrl;

@@ -124,6 +124,12 @@ public class BasicNetwork implements Network {
                 	String newUrl = responseHeaders.get("Location");
                 	request.setRedirectUrl(newUrl);
                 }
+                
+                // Handle moved resources
+                if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY || statusCode == HttpStatus.SC_MOVED_TEMPORARILY) {
+                	String newUrl = responseHeaders.get("Location");
+                	request.setRedirectUrl(newUrl);
+                }
 
                 // Some responses such as 204s do not have content.  We must check.
                 if (httpResponse.getEntity() != null) {
@@ -173,7 +179,7 @@ public class BasicNetwork implements Network {
                     } else if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY || 
                     			statusCode == HttpStatus.SC_MOVED_TEMPORARILY) {
                         attemptRetryOnException("redirect",
-                                request, new RedirectError(networkResponse));
+                                request, new AuthFailureError(networkResponse));
                     } else {
                         // TODO: Only throw ServerError for 5xx status codes.
                         throw new ServerError(networkResponse);
