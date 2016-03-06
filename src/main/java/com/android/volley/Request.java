@@ -70,9 +70,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     /** The redirect url to use for 3xx http responses */
     private String mRedirectUrl;
 
-    /** The redirect url to use for 3xx http responses */
-    private String mRedirectUrl;
-
     /** The unique identifier of the request */
     private String mIdentifier;
 
