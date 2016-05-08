@@ -16,11 +16,6 @@
 
 package com.android.volley.toolbox;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView.ScaleType;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -28,19 +23,24 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView.ScaleType;
+
 /**
  * A canned request for getting an image at a given URL and calling
  * back with a decoded Bitmap.
  */
 public class ImageRequest extends Request<Bitmap> {
     /** Socket timeout in milliseconds for image requests */
-    public static final int DEFAULT_IMAGE_TIMEOUT_MS = 1000;
+    private static final int IMAGE_TIMEOUT_MS = 1000;
 
     /** Default number of retries for image requests */
-    public static final int DEFAULT_IMAGE_MAX_RETRIES = 2;
+    private static final int IMAGE_MAX_RETRIES = 2;
 
     /** Default backoff multiplier for image requests */
-    public static final float DEFAULT_IMAGE_BACKOFF_MULT = 2f;
+    private static final float IMAGE_BACKOFF_MULT = 2f;
 
     private final Response.Listener<Bitmap> mListener;
     private final Config mDecodeConfig;
@@ -71,9 +71,9 @@ public class ImageRequest extends Request<Bitmap> {
      */
     public ImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
             ScaleType scaleType, Config decodeConfig, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
-        setRetryPolicy(new DefaultRetryPolicy(DEFAULT_IMAGE_TIMEOUT_MS, DEFAULT_IMAGE_MAX_RETRIES,
-                DEFAULT_IMAGE_BACKOFF_MULT));
+        super(Method.GET, url, errorListener); 
+        setRetryPolicy(
+                new DefaultRetryPolicy(IMAGE_TIMEOUT_MS, IMAGE_MAX_RETRIES, IMAGE_BACKOFF_MULT));
         mListener = listener;
         mDecodeConfig = decodeConfig;
         mMaxWidth = maxWidth;
